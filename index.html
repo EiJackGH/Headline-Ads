@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Headline Ads - Interactive Banner Widget Generator</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="bg-indigo-600 text-white p-2 rounded-xl">
+        <i class="fa-solid fa-rectangle-ad text-xl"></i>
+      </div>
+      <div>
+        <h1 class="text-xl font-bold tracking-tight text-slate-900">Headline Ads</h1>
+        <p class="text-xs text-slate-500 font-medium">Beautiful & responsive top-bar announcement widget for everyone.</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="demo.html" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors flex items-center gap-1">
+        <i class="fa-solid fa-laptop-code"></i> Live Demos
+      </a>
+      <a href="https://github.com" target="_blank" class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all shadow-sm flex items-center gap-2">
+        <i class="fa-brands fa-github text-base"></i> GitHub Project
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden">
+
+    <!-- Left Panel: Interactive Configurator -->
+    <section class="w-full lg:w-[480px] border-r border-slate-200 bg-white flex flex-col min-h-0 overflow-y-auto custom-scrollbar">
+      <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+        <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-sliders text-indigo-500"></i> Configure Your Ad
+        </h2>
+        <p class="text-xs text-slate-500 mt-1">Customize the display, behavior, and styling of your banner in real-time.</p>
+      </div>
+
+      <div class="p-6 space-y-6">
+        <!-- Text & Content -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Headline Message(s)</label>
+          <textarea id="adText" rows="3" class="w-full text-sm border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all" placeholder="Enter headline announcement... (Use '|' separator to rotate multiple announcements!)">🚀 Introducing Headline Ads! Customise, embed and enjoy. | 🎉 Special 20% off all plans - limited time offer! | 💎 Create beautiful attention-grabbing header announcement bars instantly.</textarea>
+          <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">
+            <i class="fa-solid fa-circle-info"></i> Separate multiple messages with <strong>|</strong> (pipe character) to enable auto-rotation.
+          </p>
+        </div>
+
+        <!-- Rotation Speed (conditional) -->
+        <div id="rotationContainer" class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Rotation Speed</label>
+            <div class="relative">
+              <input type="number" id="rotationInterval" min="1" max="60" value="4" class="w-full text-sm border border-slate-200 rounded-xl pl-4 pr-12 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-medium">secs</span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Badge Text</label>
+            <input type="text" id="badgeText" value="PROMO" class="w-full text-sm border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all" placeholder="e.g. NEW, UPDATE">
+          </div>
+        </div>
+
+        <!-- CTA Settings -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">CTA Label</label>
+            <input type="text" id="ctaText" value="Learn More" class="w-full text-sm border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all" placeholder="Button text">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Target Link URL</label>
+            <input type="text" id="ctaLink" value="https://github.com" class="w-full text-sm border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all" placeholder="URL link">
+          </div>
+        </div>
+
+        <!-- Colors & Background -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Banner Background style</label>
+          <div class="grid grid-cols-4 gap-2 mb-3">
+            <button type="button" class="preset-bg h-9 rounded-lg border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)" data-bg="linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)" title="Indigo Purple"></button>
+            <button type="button" class="preset-bg h-9 rounded-lg border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%)" data-bg="linear-gradient(135deg, #10b981 0%, #059669 100%)" title="Emerald Green"></button>
+            <button type="button" class="preset-bg h-9 rounded-lg border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all" style="background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)" data-bg="linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)" title="Rose Red"></button>
+            <button type="button" class="preset-bg h-9 rounded-lg border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all bg-slate-900" data-bg="#0f172a" title="Slate Solid"></button>
+          </div>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-bold">Custom Bg:</span>
+            <input type="text" id="bgColor" value="linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)" class="w-full text-xs font-mono border border-slate-200 rounded-xl pl-24 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+          </div>
+        </div>
+
+        <!-- Custom Color Pickers -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Text Color</label>
+            <div class="flex items-center gap-2 border border-slate-200 rounded-xl px-3 py-2">
+              <input type="color" id="textColor" value="#ffffff" class="w-8 h-8 rounded border-0 cursor-pointer">
+              <input type="text" id="textColorHex" value="#ffffff" class="w-full text-xs font-mono focus:outline-none uppercase">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">CTA Bg Color</label>
+            <div class="flex items-center gap-2 border border-slate-200 rounded-xl px-3 py-2">
+              <input type="color" id="ctaBgColor" value="#ffffff" class="w-8 h-8 rounded border-0 cursor-pointer">
+              <input type="text" id="ctaBgColorHex" value="#ffffff" class="w-full text-xs font-mono focus:outline-none uppercase">
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">CTA Text Color</label>
+            <div class="flex items-center gap-2 border border-slate-200 rounded-xl px-3 py-2">
+              <input type="color" id="ctaColor" value="#4f46e5" class="w-8 h-8 rounded border-0 cursor-pointer">
+              <input type="text" id="ctaColorHex" value="#4f46e5" class="w-full text-xs font-mono focus:outline-none uppercase">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Close Button Color</label>
+            <div class="flex items-center gap-2 border border-slate-200 rounded-xl px-3 py-2">
+              <input type="color" id="closeColor" value="#ffffff" class="w-8 h-8 rounded border-0 cursor-pointer">
+              <input type="text" id="closeColorHex" value="#ffffff" class="w-full text-xs font-mono focus:outline-none uppercase">
+            </div>
+          </div>
+        </div>
+
+        <!-- Position & Layout Options -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Position</label>
+            <select id="adPosition" class="w-full text-sm border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-white">
+              <option value="top">Sticky Top</option>
+              <option value="bottom">Sticky Bottom</option>
+              <option value="inline">Inline (Content)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Font Size</label>
+            <select id="fontSize" class="w-full text-sm border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-white">
+              <option value="12px">Small (12px)</option>
+              <option value="14px" selected>Normal (14px)</option>
+              <option value="16px">Large (16px)</option>
+              <option value="18px">X-Large (18px)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Toggles -->
+        <div class="bg-slate-50 rounded-2xl p-4 space-y-3 border border-slate-100">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-slate-800">Dismissible</span>
+              <span class="text-[10px] text-slate-400">Include exit button and save state</span>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="dismissible" value="" class="sr-only peer" checked>
+              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-slate-800">Box Shadow</span>
+              <span class="text-[10px] text-slate-400">Add subtle depth to the banner</span>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="shadow" value="" class="sr-only peer" checked>
+              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Custom Script ID (Advanced) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Unique Ad ID (Optional)</label>
+          <input type="text" id="adId" value="my-headline-ad" class="w-full text-sm font-mono border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all" placeholder="e.g. spring-sale-banner">
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Panel: Real-time Live Preview & Code Generation -->
+    <section class="flex-1 flex flex-col min-h-0 bg-slate-900 overflow-y-auto custom-scrollbar">
+
+      <!-- Preview Header -->
+      <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h2 class="text-white text-lg font-bold flex items-center gap-2">
+            <i class="fa-solid fa-eye text-emerald-400"></i> Live Interactive Preview
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">Below is a live simulation of the banner embedded on a sample website.</p>
+        </div>
+
+        <!-- Viewport Controls -->
+        <div class="flex items-center bg-slate-800 p-1.5 rounded-xl border border-slate-700 gap-1 text-slate-400 text-xs font-medium">
+          <button id="viewDesktop" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-desktop"></i> Desktop
+          </button>
+          <button id="viewMobile" class="px-3 py-1.5 rounded-lg hover:text-white transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-mobile-screen-button"></i> Mobile
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview Sandbox -->
+      <div class="flex-1 p-6 flex flex-col items-center justify-center min-h-[350px]">
+        <div id="previewViewport" class="w-full max-w-5xl h-[380px] bg-white rounded-2xl shadow-2xl relative border border-slate-700 flex flex-col transition-all overflow-hidden">
+
+          <!-- Mock Browser Bar -->
+          <div class="bg-slate-100 border-b border-slate-200 px-4 py-3 flex items-center gap-2 shrink-0">
+            <div class="flex gap-1.5">
+              <span class="w-3 h-3 rounded-full bg-rose-400"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+            </div>
+            <div class="bg-white/80 border border-slate-200/60 rounded-lg flex-1 mx-4 py-1 px-3 text-xs text-slate-400 select-none flex items-center gap-2">
+              <i class="fa-solid fa-lock text-emerald-500 text-[10px]"></i>
+              <span>yourwebsite.com</span>
+            </div>
+            <button id="resetPreviewDismissal" class="text-slate-400 hover:text-indigo-600 transition-colors text-xs flex items-center gap-1">
+              <i class="fa-solid fa-rotate-left"></i> Reset Banner
+            </button>
+          </div>
+
+          <!-- Sandbox Area hosting the Banner & mock website page content -->
+          <div id="mockPage" class="flex-1 relative overflow-y-auto custom-scrollbar bg-slate-50 flex flex-col">
+
+            <!-- Inline Target Element container (placed in mockup) -->
+            <div class="px-6 shrink-0 mt-3 hidden" id="inlinePlaceholder">
+              <div id="my-inline-container" class="border-2 border-dashed border-indigo-200 rounded-xl p-1 bg-indigo-50/30 text-center text-xs text-indigo-400">
+                [Inline Banner Slot]
+              </div>
+            </div>
+
+            <!-- Mock Page Content -->
+            <div class="flex-1 p-8 space-y-4 max-w-3xl mx-auto text-slate-600 mt-2">
+              <h1 class="text-2xl font-bold text-slate-900">Your Modern Platform</h1>
+              <p class="text-sm leading-relaxed">
+                Welcome to your fully-customisable web application. Headline Ads enables you to announce product updates, holiday offers, discount coupon codes, or high-converting promotional banners directly to your visitors.
+              </p>
+              <div class="grid grid-cols-2 gap-4 pt-2">
+                <div class="bg-white p-4 rounded-xl border border-slate-200/60 shadow-sm space-y-2">
+                  <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <i class="fa-solid fa-bolt"></i>
+                  </div>
+                  <h3 class="text-xs font-bold text-slate-800 uppercase">Super Lightweight</h3>
+                  <p class="text-xs text-slate-500">Only ~5kb bundle size. No external dependencies, purely zero bloat.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200/60 shadow-sm space-y-2">
+                  <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <i class="fa-solid fa-chart-line"></i>
+                  </div>
+                  <h3 class="text-xs font-bold text-slate-800 uppercase">Conversion Optimized</h3>
+                  <p class="text-xs text-slate-500">Elegant layout with micro-interactions optimized for higher CTR.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Live Code Block Section -->
+      <div class="border-t border-slate-800 bg-slate-950 p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-white font-bold flex items-center gap-2 text-sm uppercase tracking-wider">
+              <i class="fa-solid fa-code text-indigo-400"></i> Get The Integration Code
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">Copy and paste this snippet into the <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code> of any HTML document.</p>
+          </div>
+
+          <button id="copyBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all shadow-sm flex items-center gap-2">
+            <i class="fa-regular fa-copy text-sm"></i> Copy Code
+          </button>
+        </div>
+
+        <!-- Generated Code Snippet Block -->
+        <div class="relative bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+          <pre class="p-4 overflow-x-auto text-xs text-emerald-400 font-mono leading-relaxed"><code id="codeSnippet"></code></pre>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Embed Code & Interaction Script -->
+  <script src="headline-ads.js"></script>
+  <script>
+    // Configuration elements
+    const adText = document.getElementById('adText');
+    const adId = document.getElementById('adId');
+    const ctaText = document.getElementById('ctaText');
+    const ctaLink = document.getElementById('ctaLink');
+    const bgColor = document.getElementById('bgColor');
+    const textColor = document.getElementById('textColor');
+    const textColorHex = document.getElementById('textColorHex');
+    const ctaBgColor = document.getElementById('ctaBgColor');
+    const ctaBgColorHex = document.getElementById('ctaBgColorHex');
+    const ctaColor = document.getElementById('ctaColor');
+    const ctaColorHex = document.getElementById('ctaColorHex');
+    const closeColor = document.getElementById('closeColor');
+    const closeColorHex = document.getElementById('closeColorHex');
+    const adPosition = document.getElementById('adPosition');
+    const fontSize = document.getElementById('fontSize');
+    const dismissible = document.getElementById('dismissible');
+    const shadow = document.getElementById('shadow');
+    const badgeText = document.getElementById('badgeText');
+    const rotationInterval = document.getElementById('rotationInterval');
+
+    // Controls
+    const presetBgs = document.querySelectorAll('.preset-bg');
+    const viewDesktop = document.getElementById('viewDesktop');
+    const viewMobile = document.getElementById('viewMobile');
+    const previewViewport = document.getElementById('previewViewport');
+    const resetPreviewDismissal = document.getElementById('resetPreviewDismissal');
+    const copyBtn = document.getElementById('copyBtn');
+    const codeSnippet = document.getElementById('codeSnippet');
+    const mockPage = document.getElementById('mockPage');
+    const inlinePlaceholder = document.getElementById('inlinePlaceholder');
+
+    let currentBannerInstance = null;
+
+    // Sync input pickers and hex inputs
+    function syncColors(picker, hexInput) {
+      picker.addEventListener('input', () => {
+        hexInput.value = picker.value;
+        updateWidget();
+      });
+      hexInput.addEventListener('input', () => {
+        if (/^#[0-9A-F]{6}$/i.test(hexInput.value)) {
+          picker.value = hexInput.value;
+          updateWidget();
+        }
+      });
+    }
+    syncColors(textColor, textColorHex);
+    syncColors(ctaBgColor, ctaBgColorHex);
+    syncColors(ctaColor, ctaColorHex);
+    syncColors(closeColor, closeColorHex);
+
+    // Click on preset gradients
+    presetBgs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const bg = btn.getAttribute('data-bg');
+        bgColor.value = bg;
+        updateWidget();
+      });
+    });
+
+    // Handle viewport changes
+    viewDesktop.addEventListener('click', () => {
+      viewDesktop.classList.add('bg-indigo-600', 'text-white');
+      viewDesktop.classList.remove('hover:text-white');
+      viewMobile.classList.remove('bg-indigo-600', 'text-white');
+      viewMobile.classList.add('hover:text-white');
+      previewViewport.className = "w-full max-w-5xl h-[380px] bg-white rounded-2xl shadow-2xl relative border border-slate-700 flex flex-col transition-all overflow-hidden";
+    });
+
+    viewMobile.addEventListener('click', () => {
+      viewMobile.classList.add('bg-indigo-600', 'text-white');
+      viewMobile.classList.remove('hover:text-white');
+      viewDesktop.classList.remove('bg-indigo-600', 'text-white');
+      viewDesktop.classList.add('hover:text-white');
+      previewViewport.className = "w-[375px] h-[550px] bg-white rounded-2xl shadow-2xl relative border border-slate-700 flex flex-col transition-all overflow-hidden";
+    });
+
+    // Reset Dismissal State
+    resetPreviewDismissal.addEventListener('click', () => {
+      const activeId = adId.value.trim() || 'my-headline-ad';
+      window.HeadlineAds.resetDismissal(activeId);
+      updateWidget();
+    });
+
+    // Update Banner widget live preview inside the Mock Page DOM
+    function updateWidget() {
+      // Cleanup previous preview element
+      const activeId = adId.value.trim() || 'my-headline-ad';
+      const existing = mockPage.querySelector(`#hl-ad-banner-${activeId}`);
+      if (existing) {
+        existing.remove();
+      }
+
+      // Manage sticky/inline mock page spaces
+      inlinePlaceholder.classList.add('hidden');
+      if (adPosition.value === 'inline') {
+        inlinePlaceholder.classList.remove('hidden');
+      }
+
+      // Override the actual default target parent container logic for our simulation
+      const options = {
+        id: activeId,
+        text: adText.value,
+        ctaText: ctaText.value,
+        link: ctaLink.value,
+        bgColor: bgColor.value,
+        textColor: textColor.value,
+        ctaBg: ctaBgColor.value,
+        ctaColor: ctaColor.value,
+        closeColor: closeColor.value,
+        position: adPosition.value,
+        fontSize: fontSize.value,
+        dismissible: dismissible.checked,
+        shadow: shadow.checked,
+        badgeText: badgeText.value,
+        rotationInterval: Number(rotationInterval.value) || 0,
+        target: adPosition.value === 'inline' ? 'my-inline-container' : ''
+      };
+
+      // Ensure dismissed state is cleared if they change values
+      window.HeadlineAds.resetDismissal(options.id);
+
+      // We render manually directly inside mockPage or its inline target
+      const adElement = document.createElement('div');
+      adElement.className = 'hl-ad-banner-container';
+      adElement.id = `hl-ad-banner-${options.id}`;
+
+      // Custom variable assignment
+      adElement.style.setProperty('--hl-bg-color', options.bgColor);
+      adElement.style.setProperty('--hl-text-color', options.textColor);
+      adElement.style.setProperty('--hl-cta-bg', options.ctaBg);
+      adElement.style.setProperty('--hl-cta-color', options.ctaColor);
+      adElement.style.setProperty('--hl-close-color', options.closeColor);
+      adElement.style.setProperty('--hl-font-size', options.fontSize);
+      adElement.style.setProperty('--hl-badge-bg', 'rgba(255, 255, 255, 0.2)');
+      adElement.style.setProperty('--hl-badge-color', options.textColor);
+
+      if (options.shadow) adElement.classList.add('hl-ad-shadow');
+
+      if (options.position === 'bottom') {
+        adElement.style.position = 'absolute';
+        adElement.style.bottom = '0';
+        adElement.style.top = 'auto';
+        adElement.style.left = '0';
+        adElement.style.right = '0';
+        adElement.style.zIndex = '10';
+        mockPage.appendChild(adElement);
+      } else if (options.position === 'inline') {
+        adElement.style.position = 'relative';
+        adElement.style.borderRadius = '8px';
+        adElement.style.margin = '16px 0';
+        const inlineSlot = mockPage.querySelector('#my-inline-container');
+        if (inlineSlot) {
+          inlineSlot.innerHTML = '';
+          inlineSlot.appendChild(adElement);
+        }
+      } else {
+        adElement.style.position = 'absolute';
+        adElement.style.top = '0';
+        adElement.style.bottom = 'auto';
+        adElement.style.left = '0';
+        adElement.style.right = '0';
+        adElement.style.zIndex = '10';
+        mockPage.insertBefore(adElement, mockPage.firstChild);
+      }
+
+      // Render interior elements safely
+      const escapeHTML = (str) => {
+        return str.replace(/[&<>'"]/g,
+          tag => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+          }[tag] || tag)
+        );
+      };
+
+      const messages = options.text.split('|').map(m => m.trim());
+      let currentIdx = 0;
+
+      const badgeHTML = options.badgeText ? `<span class="hl-ad-badge">${escapeHTML(options.badgeText)}</span>` : '';
+      const ctaHTML = options.ctaText ? `<a href="${escapeHTML(options.link)}" target="_blank" class="hl-ad-cta">${escapeHTML(options.ctaText)}</a>` : '';
+      const closeHTML = options.dismissible ? `
+        <button class="hl-ad-close" aria-label="Dismiss ad">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      ` : '';
+
+      adElement.innerHTML = `
+        <div class="hl-ad-content">
+          <div class="hl-ad-message-wrapper">
+            ${badgeHTML}
+            <span class="hl-ad-message" id="mock-hl-ad-msg">${escapeHTML(messages[0])}</span>
+          </div>
+          ${ctaHTML}
+        </div>
+        ${closeHTML}
+      `;
+
+      if (options.dismissible) {
+        const closeBtn = adElement.querySelector('.hl-ad-close');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', () => {
+            adElement.classList.remove('hl-ad-visible');
+            setTimeout(() => adElement.remove(), 400);
+          });
+        }
+      }
+
+      // Interval rotation for mock
+      if (messages.length > 1 && options.rotationInterval > 0) {
+        const msgSpan = adElement.querySelector(`#mock-hl-ad-msg`);
+        // clear previous interval if stored
+        if (window.mockIntervalId) clearInterval(window.mockIntervalId);
+        window.mockIntervalId = setInterval(() => {
+          if (!msgSpan) return;
+          msgSpan.classList.add('hl-ad-message-fade-out');
+          setTimeout(() => {
+            currentIdx = (currentIdx + 1) % messages.length;
+            msgSpan.textContent = messages[currentIdx];
+            msgSpan.classList.remove('hl-ad-message-fade-out');
+          }, 300);
+        }, options.rotationInterval * 1000);
+      }
+
+      setTimeout(() => {
+        adElement.classList.add('hl-ad-visible');
+      }, 50);
+
+      generateEmbedCode(options);
+    }
+
+    // Generate Embed Code Output
+    function generateEmbedCode(options) {
+      // Find the absolute/relative URL path for the script based on window location
+      let scriptUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/')) + '/headline-ads.js';
+
+      let html = `<!-- Headline Announcement Banner Container -->\n`;
+      if (options.position === 'inline') {
+        html += `<div id="headline-ad-target"></div>\n\n`;
+      }
+
+      html += `<script \n  src="${scriptUrl}"\n`;
+      html += `  data-id="${options.id}"\n`;
+      html += `  data-text="${options.text.replace(/"/g, '&quot;')}"\n`;
+      if (options.ctaText) html += `  data-cta-text="${options.ctaText.replace(/"/g, '&quot;')}"\n`;
+      html += `  data-link="${options.link}"\n`;
+      html += `  data-bg-color="${options.bgColor}"\n`;
+      html += `  data-text-color="${options.textColor}"\n`;
+      if (options.ctaBg) html += `  data-cta-bg="${options.ctaBg}"\n`;
+      if (options.ctaColor) html += `  data-cta-color="${options.ctaColor}"\n`;
+      html += `  data-close-color="${options.closeColor}"\n`;
+      html += `  data-position="${options.position}"\n`;
+      if (options.position === 'inline') html += `  data-target="headline-ad-target"\n`;
+      html += `  data-font-size="${options.fontSize}"\n`;
+      html += `  data-dismissible="${options.dismissible}"\n`;
+      html += `  data-shadow="${options.shadow}"\n`;
+      if (options.badgeText) html += `  data-badge-text="${options.badgeText}"\n`;
+      if (options.rotationInterval > 0) html += `  data-rotation-interval="${options.rotationInterval}"\n`;
+      html += `  async>\n<\/script>`;
+
+      codeSnippet.textContent = html;
+    }
+
+    // Setup Copy Button
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(codeSnippet.textContent).then(() => {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = `<i class="fa-solid fa-check text-sm"></i> Copied!`;
+        copyBtn.classList.remove('bg-indigo-600');
+        copyBtn.classList.add('bg-emerald-600');
+        setTimeout(() => {
+          copyBtn.innerHTML = originalText;
+          copyBtn.classList.add('bg-indigo-600');
+          copyBtn.classList.remove('bg-emerald-600');
+        }, 2000);
+      });
+    });
+
+    // Setup Event Listeners to redraw when configurations change
+    [adText, adId, ctaText, ctaLink, bgColor, adPosition, fontSize, dismissible, shadow, badgeText, rotationInterval].forEach(elem => {
+      elem.addEventListener('input', updateWidget);
+      elem.addEventListener('change', updateWidget);
+    });
+
+    // Initial Trigger
+    updateWidget();
+  </script>
+</body>
+</html>
