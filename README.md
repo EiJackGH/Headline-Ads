@@ -2,7 +2,7 @@
 
 A highly customisable, elegant, and modern Headline Ads / Announcement Banner widget for everyone. Host on GitHub Pages or integrate directly onto any static or dynamic website.
 
-[Live Customizer / Interactive Dashboard](index.html) | [Interactive Showcases](demo.html)
+[Live Customizer / Interactive Dashboard](https://eijackgh.github.io/Headline-Ads/) | [Interactive Showcases](https://eijackgh.github.io/Headline-Ads/demo.html)
 
 ---
 
