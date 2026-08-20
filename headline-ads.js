@@ -438,8 +438,11 @@
 
   // Auto-init on DOMContentLoaded or immediately if DOM is already loaded
   function autoInit() {
-    // Only auto-init if script tag has configuration attributes or container doesn't exist yet
-    HeadlineAds.init();
+    // Only auto-init if script tag has configuration data attributes
+    const scriptOpts = HeadlineAds.getScriptOptions();
+    if (Object.keys(scriptOpts).length > 0) {
+      HeadlineAds.init();
+    }
   }
 
   if (document.readyState === 'loading') {
